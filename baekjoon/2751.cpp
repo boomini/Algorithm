@@ -1,44 +1,59 @@
 #include <stdio.h>
 
 //시간제한이 있으므로 O(N*logN)을 이용하여야 한다. 
-int n, data[1000001];
-void quicksort(int *data, int start, int end){
-	if(start>=end){
-		return;
-	}	
-	int key=start;
-	int i=start+1;
-	int j=end;
-	int temp;
-	while(i<=j){
-		while(data[i]<=data[key]){
+int sorted[1000001];
+
+void merge(int array[], int start, int middle, int end){
+	int i=start;
+	int j=middle+1;
+	int k=start;
+	
+	while(i<=middle && j<=end){
+		if(array[i]<=array[j]){
+			sorted[k]=array[i];
 			i++;
-		}
-		while(data[key]<=data[j] && j>start){
-			j--;
-		}
-		if(i>j){
-			temp=data[j];
-			data[j]=data[key];
-			data[key]=temp;
 		}else{
-			temp=data[i];
-			data[i]=data[j];
-			data[j]=temp;
+			sorted[k]=array[j];
+			j++;
 		}
-		
+		k++;
 	}
-	quicksort(data,start,j-1);
-	quicksort(data,j+1,end);
+	if(i>middle){
+		for (int t=j; t<=end; t++){
+			sorted[k]=array[t];
+			k++;
+		}
+	}else{
+		for(int t=i; t<=middle; t++){
+			sorted[k]=array[t];
+			k++;
+		}
+	}
+	
+	for(int t=start; t<=end; t++){
+		array[t]=sorted[t];
+	}
+}
+
+void mergeSort(int array[],int start, int end){
+	if(start<end){
+		int middle=(start+end)/2;
+		mergeSort(array,start,middle);
+		mergeSort(array,middle+1,end);
+		merge(array,start,middle,end);
+	}
 }
 
 int main(void){
+	int n;
 	scanf("%d",&n);
+	int array[n];
 	for(int i=0; i<n; i++){
-		scanf("%d",&data[i]);
+		scanf("%d",&array[i]);
 	}
-	quicksort(data,0,n-1);
+	mergeSort(array,0,n-1);
 	for(int i=0;i<n;i++){
-		printf("%d\n", data[i]);
+		printf("%d\n", array[i]);
 	}
+	
 }
