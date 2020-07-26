@@ -14,6 +14,7 @@ bool compare(string a,string b){
 string solution(vector<int> numbers) {
     string answer = "";
     vector<string> number;
+
     for(int i=0; i<numbers.size(); i++){
     	number.push_back(to_string(numbers[i]));
 	}
@@ -38,6 +39,10 @@ void print(vector<int> numbers, string answer){
 		 
 }
 int main(void){
+	int arr[10]={6,10,2};
+	vector<int> vec;
+	vec.assign(arr,arr+3);
+	cout<<solution(vec);
 	print({6,10,2},"6210");
 	print({3,30,34,5,9},"9534330");
 	print({0,0,0,0,0,0,0},"0");
